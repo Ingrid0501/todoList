@@ -1,4 +1,8 @@
-// console.log("outside-onload");
+/*
+1.記得是 .onclick()=function(){}; 2. 接著接一個function，而非直接呼叫那個function，否則會沒有點按鈕也會執行
+
+ 
+ */
 
 // this variable is for creating id of every DELETE button
 let delNo = 0;
@@ -6,45 +10,48 @@ let liNo = 0;
 // 如果將它移出function就可以順利建立起 delete-btn0 /delete-btn1/delete-btn2...
 // 但是假設我以後按了delete BTN 之後，我應該讓所有的標籤都改變嗎? 如: delete-btn0 /delete-btn1(刪除)/delete-btn2 。那麼2要變成 1嗎?
 
-window.onload = function() {
+window.onload = () => {
     let addBTN = document.getElementById("addBTN");
     // 點 按鈕，call addToList (function)
+    let input = document.getElementById("input-txt");
 
-    addBTN.click = addToList(); //記得加上 ()
+    let btnArray = [];
+    let delArray = [];
+
+    //無論是按鈕或Enter都可以輸入事件並呈現。
+    addBTN.onclick = () => { addToList() };
+    input.addEventListener("keypress", function(event) { if (event.key === "Enter") { addToList() } })
+
 
     function addToList() {
         // *** tag 增加 delete按鈕。可以刪除。
-        addBTN.addEventListener("click", function(e) {
+        // 1.獲取 input中的文字資料
+        let input_TXT = input.value // console.log(inputTXT.value);
 
-            // 1.獲取 input中的文字資料
-            let input = document.getElementById("input-txt");
-            let input_TXT = input.value // console.log(inputTXT.value);
+        // 2.找到要寫入to-do things的地方
+        let doList = document.getElementById("dolist");
 
-            // 2.找到要寫入to-do things的地方
-            let doList = document.getElementById("dolist");
+        //2-1然後增加 <>
+        // li版
+        let liS = document.createElement("li");
 
-            //2-1然後增加 <>
-            // li版
-            let liS = document.createElement("li");
-
-            // 3.得到tag，將 1.的內容放入 2.
-            liS.innerHTML = input_TXT;
-            // let liSclass = "delete-btn" + liNo;
-            // liS.setAttribute("class", delete-btn);
-            // liNo += 1;
+        // 3.得到tag，將 1.的內容放入 2.
+        liS.innerHTML = input_TXT;
+        // let liSclass = "delete-btn" + liNo;
+        // liS.setAttribute("class", delete-btn);
+        // liNo += 1;
 
 
-            //4.將有文字的段落新增顯示 在預計存放to-do list 的位置
-            //但是!! 要擺在第一位，而非添加在後頭。
-            let firstList = document.querySelectorAll("li")[0];
-            // console.log("firstList:", firstList); //<li>"a"</li>
-            // console.log("liS:", liS);//<li>"b"</li>
+        //4.將有文字的段落新增顯示 在預計存放to-do list 的位置
+        //但是!! 要擺在第一位，而非添加在後頭。
+        let firstList = document.querySelectorAll("li")[0];
+        // console.log("firstList:", firstList); //<li>"a"</li>
+        // console.log("liS:", liS);//<li>"b"</li>
 
-            doList.insertBefore(liS, firstList);
-            //同時增加按鈕。
-            createButton(liS); // <li> tags
+        doList.insertBefore(liS, firstList);
+        //同時增加按鈕。
+        createButton(liS); // <li> tags
 
-        });
 
         //div版 (VS li版)
         // let divS = document.createElement("div");
@@ -69,8 +76,7 @@ window.onload = function() {
         // 4.就可以加入。
 
     };
-    let btnArray = []; //TEST
-    let delArray = []; //TEST
+
 
     function createButton(liS) { // <li> tags 
         //創造buttons
