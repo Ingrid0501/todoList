@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>variable scope</title>
+</head>
+
+<body>
+    <button onclick="addNum()">add</button>
+    <button onclick="console.log('number(third):', num);">print 3</button>
+    <button id="pikapika">getEle</button>
+    <ul>
+        <li id="fire">dragon</li>
+        <li id="water">turtle</li>
+        <li id="pushh">push</li>
+    </ul>
+
+    <script>
+        for (let i = 0; i < 5; i++) {
+            let myvar = "delBtn" + i;
+            console.log(myvar);
+        }
+    </script>
+
+    <script>
+        let myPika = document.getElementById("pikapika");
+        let myLi = document.getElementById("fire");
+        console.log("I used to be ")
+
+        myPika.addEventListener("click", function() {
+            console.log(myLi)
+        });
+    </script>
+
+
+</body>
+
+</html>

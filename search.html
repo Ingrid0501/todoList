@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1 maximun-scale=1 user-scalable=no">
+    <title>ArcGIS search</title>
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+        
+        ;
+        .esri-ui-corner .esri-component.esri-widget--panel {
+            width: 200px !important;
+        }
+        
+        ;
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.27/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.27/"></script>
+
+    <script>
+        require(["esri/Config", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/Map"],
+            function(esriConfig, MapView, FeatureLayer, Map) {
+
+                esriConfig.apikey = " ";
+                const map = new Map({
+                    basemap: "arcgis-topographic"
+                });
+                const view = new MapView({
+                    container: "viewDiv",
+                    map: map,
+
+                })
+                const parcelLayerSQL = ["Choose a SQL where ....",
+                    "UseType" = "Residental", "UseType" = "Government", "UseType" = "Irrigated Farm", "TaxRateArea = 10853", "TaxRateArea = 10860", "TaxRateArea = 08637", "Roll_LandValue > 1000000", "Roll_LandValue < 1000000"
+                ];
+                //預設在可以顯示第一個SQL
+                let whereClause = parcelLayerSQL[0];
+            });
+
+        //<!-- 先建立一個標籤 tag。且設置他的class。這個 select選項。 -->
+        const select = document.createElement("select");
+        select.setAttribute("class", "esri-widget esri-select");
+        select.setAttribute("style", "width: 200px ; font-family:'Avenir Next'; font-size: 1em");
+
+        //<!-- 針對每一個parcelLayerSQL之中的類型建立tag -->
+        parcelLayerSQL.forEach(function(query) {
+            let option = document.createElement("option");
+            option.innerHTML = query;
+            option.value = query;
+            select.appendChild(option);
+        });
+        view.ui.add(select, "top-right");
+
+
+        select.addEventListener('change', (event) => {
+            whereClause = event.target.value;
+        })
+        queryFeatureLayer(view.extent);
+
+        const parcelLayer = new FeatureLayer({
+            url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/LA_County_Parcels/FeatureServer/0",
+        })
+    </script>
+
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+
+</html>

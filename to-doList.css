@@ -1,0 +1,21 @@
+body {
+    background-color: azure;
+}
+
+#hint {
+    padding: 0.5cm;
+    background-color: #0000;
+    text-align: start;
+}
+
+li {
+    padding: 10px;
+    background-color: darkcyan;
+    color: ghostwhite;
+    border-radius: 20px;
+    margin-top: 1%;
+}
+
+button {
+    margin-left: 0.5cm;
+}
